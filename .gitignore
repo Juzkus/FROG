@@ -1,2 +1,5 @@
-﻿/FROG.DotNet/FROG.DotNet/obj
+﻿/FROG.DotNet/FROG.DotNet/bin
+/FROG.DotNet/FROG.DotNet/obj
 /FROG.DotNet/.vs/FROG.DotNet/
+/FROG.DotNet/FROG.DotNet.Tests/bin
+/FROG.DotNet/FROG.DotNet.Tests/obj
