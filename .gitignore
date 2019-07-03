@@ -5,3 +5,5 @@
 /FROG.DotNet/FROG.DotNet.Tests/obj
 /FROG.DotNet/FROG.DotNet.SimpleSearch/bin/*
 /FROG.DotNet/FROG.DotNet.SimpleSearch/obj/*
+/FROG.DotNet/FROG.DevSetup/bin
+/FROG.DotNet/FROG.DevSetup/obj
