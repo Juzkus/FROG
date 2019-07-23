@@ -7,3 +7,5 @@ C# code library.
 #### FROG.DevSetup
 Tool for automating coding environment setups with support for custom configuration.
 
+#### FROG.PHP.Web
+PHP templates, functions and partials!
