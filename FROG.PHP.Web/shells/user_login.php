@@ -4,8 +4,9 @@
 <style>
 .user_login
 {
-	background: blue;
-	border: 1px solid navy;
+	background: forestgreen;
+	border: 1px solid green;
+	padding: 12px;
 	width: 200px;
 	height: 200px;
 }
