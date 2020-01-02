@@ -8,6 +8,11 @@ function has_session()
 	return isset($_SESSION['id']);
 }
 
+function get_session_id()
+{
+	return $_SESSION['id'];
+}
+
 function create_session($authToken)
 {
 	if (!has_session())
@@ -16,7 +21,7 @@ function create_session($authToken)
 		
 		# TODO
 		# Look up which user signed in via authToken table.
-		$userId = 'some_user_id';
+		$userId = db_get_user_id_for_session_auth_token($authToken);
 		$userRole = REG_USER;
 		$startTime = date(DateTime::ISO8601);
 		
@@ -32,9 +37,7 @@ function create_session($authToken)
 
 function end_session()
 {
-	if (has_session())
-	{
-		session_destroy();
-	}
+	session_unset();
+	session_destroy();
 }
 ?>

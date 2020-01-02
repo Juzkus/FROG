@@ -3,21 +3,21 @@ include_once "../include.php";
 
 # On success, return callback id session establishment.
 function setup_session($authToken)
-{
-	# TODO - validate auth token
-	$isValid = true;
-	
-	if ($isValid)
+{	
+	if (db_is_valid_auth($authToken))
 	{
 		create_session($authToken);
 		
 		# Invalidate auth token - this token is to be used only once.		
 		db_invalidate_session_auth($authToken);
 		
-		# TODO - of course we don't want to use the $_SESSION object here
-		# Or write the actual session object. This is testing code.
-		write_json_response($_SESSION);
-	}	
+		header("Location: /dashboard");
+	}
+	else
+	{
+		#TODO 403
+		echo 403;
+	}
 }
 
 # Endpoint Starts Here

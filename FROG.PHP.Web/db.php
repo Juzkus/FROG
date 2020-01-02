@@ -49,6 +49,45 @@ function db_create_session_auth($authToken, $userId)
 	}
 }
 
+function db_get_user_id_for_session_auth_token($authToken)
+{
+	$db = db_connect();
+	$stmt = $db->prepare("SELECT USER_ID FROM SESSION_AUTH WHERE AUTH_TOKEN = ?");
+	$stmt->bind_param("s", $authToken);
+	$stmt->execute();
+
+	$userId = "";
+	$result = $stmt->get_result();
+	
+	# if($result->num_rows === 0) exit('No rows');
+	
+	while($row = $result->fetch_assoc()) 
+	{
+		$userId = $row['USER_ID'];
+	}
+	
+	return $userId;
+}
+
+function db_is_valid_auth($authToken)
+{
+	$db = db_connect();
+	$stmt = $db->prepare("SELECT IS_VALID FROM SESSION_AUTH WHERE AUTH_TOKEN = ?");
+	$stmt->bind_param("s", $authToken);
+	$stmt->execute();
+
+	$isValid = 0;
+	$result = $stmt->get_result();
+	
+	if($result->num_rows === 1)
+	{
+		$row = $result->fetch_assoc();
+		$isValid = $row['IS_VALID'];
+	}
+	
+	return $isValid == 1;
+}
+
 function db_invalidate_session_auth($authToken)
 {
 	$db = db_connect();
