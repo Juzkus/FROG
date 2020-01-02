@@ -21,8 +21,9 @@
 </style>
 <script>
 
-window.post = function(url, data) {
-  return fetch(url, {method: "POST", body: JSON.stringify(data)});
+function loginRedirect(json)
+{
+	console.log(json);
 }
 
 function tryLogin() {
@@ -31,13 +32,8 @@ function tryLogin() {
 	
 	// call try endpoint - returns status + callback id.
 	// the callback id will be for a temporary route that will establish our session.
-	console.log(user.value);
-	console.log(pass.value);
 	
-	post("/api/login", {user: user.value, pass: pass.value}).then(res => {
-	  // console.log("Request complete! response:", res);
-	  console.log(res.json());
-	});
+	post("/api/login", {user: user.value, pass: pass.value}, loginRedirect);
 }
 
 </script>

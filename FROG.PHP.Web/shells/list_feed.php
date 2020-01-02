@@ -25,11 +25,8 @@
 	margin-bottom: 20px;
 }
 </style>
+<script src="/js/requests.js"></script>
 <script>
-	window.get = function(url) {
-	  return fetch(url, {method: "GET"});
-	}
-	
 	// Using list of feed items,
 	// build DOM.
 	function buildFeed(feedJson)
@@ -60,11 +57,7 @@
 		}
 	}
 	
-	get("/api/posts").then(res => {	  
-		res.json().then(x => {
-			buildFeed(x);
-		});
-	});
+	get("/api/posts", buildFeed);
 </script>
 <?php
 	// feed container	
