@@ -1,17 +1,14 @@
 <?php
-	session_start();
+	include_once "../include.php";
 	
 	$UNAUTHORIZED 	= 401;
 	$OK				= 200;
-	
-	# Get JSON as a string
-	$json_str = file_get_contents('php://input');
 
 	# Get as an object
-	$json_obj = json_decode($json_str);
+	$json = get_request_json_object();
 	
-	$usr = $json_obj->user;
-	$pass = $json_obj->pass;
+	$user = $json->user;
+	$pass = $json->pass;
 	
 	if (isset($user) && isset($pass))
 	{
@@ -22,7 +19,7 @@
 	#http_response_code($UNAUTHORIZED);
 	# header('Status Code', $UNAUTHORIZED);
 	
-	$data = ['user' => $usr, 'pass' => $pass];
-	header('Content-Type: application/json');
-	echo json_encode($data);
+	$data = ['user' => $user, 'pass' => $pass];
+	
+	write_json_response($data);
 ?>
