@@ -28,6 +28,8 @@ function loginRedirect(json)
 	if (json && json['session_route']) 
 	{
 		console.log('user logged in. redirecting to /api/auth/' + json['session_route']);
+		
+		window.location.href = window.location.origin + '/api/auth/'+ json['session_route'];
 	}
 }
 
