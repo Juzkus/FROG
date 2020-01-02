@@ -1,3 +1,6 @@
+<?php
+include_once "include.php"
+?>
 <h2>Demos</h2>
 <p>Use these to see the pieces come together.</p>
 <ul>
