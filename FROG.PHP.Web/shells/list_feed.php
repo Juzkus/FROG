@@ -26,27 +26,47 @@
 }
 </style>
 <script>
-	// TODO: Update list from server.
+	window.get = function(url) {
+	  return fetch(url, {method: "GET"});
+	}
+	
+	// Using list of feed items,
+	// build DOM.
+	function buildFeed(feedJson)
+	{
+		console.log("building feed");
+		console.log(feedJson);
+		let feed = document.getElementById("feed");
+		
+		for (let i = 0; i < feedJson.length; i++)
+		{
+			console.log(feedJson[i]);
+			let data = feedJson[i];
+			
+			let feedItem = document.createElement('div');
+			feedItem.className = "feed_item";
+			feedItem.id = "feed_item_" + data['id'];
+			
+			let feedItemTitle = document.createElement('h2');
+			feedItemTitle.innerText = data['title'];
+			
+			let feedItemDesc = document.createElement('p');
+			feedItemDesc.innerText = data['desc'];
+			
+			feedItem.appendChild(feedItemTitle);
+			feedItem.appendChild(feedItemDesc);
+			
+			feed.appendChild(feedItem);
+		}
+	}
+	
+	get("/api/posts").then(res => {	  
+		res.json().then(x => {
+			buildFeed(x);
+		});
+	});
 </script>
 <?php
-	$firstPost = [];
-	$firstPost['id'] = 'abc123';
-	$firstPost['title'] = 'A post title';
-	$firstPost['desc'] = 'Some words that better articulate what I am trying to say.';
-	$secondPost = ['id' => 'xyz789', 'title' => 'Another post', 'desc' => 'Just because a list should have at least two things in most cases. Otherwise it would be a note, wouldn\'t it?'];
-	$dummyList = array($firstPost, $secondPost);
-	
-	// outer container	
-	echo '<div class="feed">';
-	
-	foreach ($dummyList as $item)
-	{
-		echo '<div class="feed_item" id="' . $item['id'] .'">' 
-			. '<h4>' . $item['title'] . '</h4>'
-			. '<p>' . $item['desc'] . '</p>'
-			. '</div>';
-	}
-
-	// close container
-	echo '</div>';
+	// feed container	
+	echo '<div class="feed" id="feed"></div>';
 ?>
