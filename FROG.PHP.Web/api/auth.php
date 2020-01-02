@@ -11,7 +11,8 @@ function setup_session($authToken)
 	{
 		create_session($authToken);
 		
-		# TODO - invalidate auth token - this token is to be used only once.		
+		# Invalidate auth token - this token is to be used only once.		
+		db_invalidate_session_auth($authToken);
 		
 		# TODO - of course we don't want to use the $_SESSION object here
 		# Or write the actual session object. This is testing code.

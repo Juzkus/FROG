@@ -46,4 +46,9 @@ function create_session_guid()
 	return getToken(SESSION_ID_SIZE);
 }
 
+function create_primary_guid()
+{
+	return getToken(PRIMARY_ID_SIZE);
+}
+
 ?>

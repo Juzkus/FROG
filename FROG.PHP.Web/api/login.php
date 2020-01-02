@@ -4,9 +4,14 @@ include_once "../include.php";
 # On success, return callback id session establishment.
 function authenticate_user($user, $pass)
 {
+	$authToken = create_session_setup_guid();
 	$response = [];
-	$response['session_route'] = create_session_setup_guid();
+	$response['session_route'] = $authToken;
 	
+	# Persist auth token in DB.
+	db_create_session_auth($authToken, $user);
+	
+	# Send user callback auth token.
 	write_json_response($response);
 }
 

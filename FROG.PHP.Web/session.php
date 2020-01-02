@@ -29,4 +29,12 @@ function create_session($authToken)
 		$_SESSION['start_time'] = $startTime;
 	}
 }
+
+function end_session()
+{
+	if (has_session())
+	{
+		session_destroy();
+	}
+}
 ?>
