@@ -18,4 +18,9 @@ define('DB_NAME', 'FROG');
 define('DB_RW_USER', 'root');
 define('DB_RW_PASS', '');
 
+# USER Lookup Types
+define('USER_ID_LOOKUP', 0);
+define('USER_NAME_LOOKUP', 1);
+define('USER_EMAIL_LOOKUP', 2);
+
 ?>

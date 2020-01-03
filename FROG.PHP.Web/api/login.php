@@ -4,12 +4,22 @@ include_once "../include.php";
 # On success, return callback id session establishment.
 function authenticate_user($user, $pass)
 {
-	$authToken = create_session_setup_guid();
 	$response = [];
-	$response['session_route'] = $authToken;
 	
-	# Persist auth token in DB.
-	db_create_session_auth($authToken, $user);
+	if (user_password_matches($user, $pass))
+	{
+		$authToken = create_session_setup_guid();
+	
+		# Persist auth token in DB.
+		db_create_session_auth($authToken, $user);
+		
+		$response['session_route'] = $authToken;
+	}
+	else
+	{
+		# FAIL
+		$response['error_message'] = "Login Failure.";
+	}
 	
 	# Send user callback auth token.
 	write_json_response($response);
@@ -26,12 +36,8 @@ $pass = $json->pass;
 
 if (isset($user) && isset($pass))
 {
-	# http_response_code($OK);
-	# header('Status Code', $OK);
+	authenticate_user($user, $pass);
 }
 
-#http_response_code($UNAUTHORIZED);
-# header('Status Code', $UNAUTHORIZED);
 
-authenticate_user($user, $pass);
 ?>

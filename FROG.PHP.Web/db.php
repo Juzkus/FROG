@@ -98,6 +98,37 @@ function db_invalidate_session_auth($authToken)
 	$stmt->execute();
 }
 
+
+######################################
+# USER TABLE
+######################################
+
+function db_get_user_by_username($userName)
+{
+	$db = db_connect();
+	$stmt = $db->prepare("SELECT ID, USER_NAME, PASS_HASH, EMAIL, CREATED, IS_VALID FROM USERS WHERE USER_NAME = ?");
+	$stmt->bind_param("s", $userName);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	
+	$user = [];
+	
+	if($result->num_rows === 1)
+	{
+		$row = $result->fetch_assoc();
+		
+		$user['id'] 		= $row['ID'];
+		$user['userName'] 	= $row['USER_NAME'];
+		$user['passHash'] 	= $row['PASS_HASH'];
+		$user['email'] 		= $row['EMAIL'];
+		$user['created'] 	= $row['CREATED'];
+		$user['isValid'] 	= $row['IS_VALID'];
+	}
+	
+	return $user;
+}
+
+
 ######################################
 # Connecting - most endpoints need DB.
 ######################################
