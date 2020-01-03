@@ -12,13 +12,22 @@ function user_password_matches($userNameOrEmail, $pass)
 
 function get_user($user, $lookupType)
 {
-	if ($lookupType == USER_NAME_LOOKUP)
+	$fieldName = 'USER_NAME';
+	
+	switch ($lookupType) 
 	{
-		return db_get_user_by_username($user);
+		case USER_NAME_LOOKUP:
+			$fieldName = 'USER_NAME';
+			break;
+		case USER_ID_LOOKUP:
+			$fieldName = 'ID';
+			break;
+		case USER_EMAIL_LOOKUP:
+			$fieldName = 'EMAIL';
+			break;
 	}
 	
-	# TODO - other lookups.
-	return null;
+	return db_get_user_by_field($user, $fieldName);
 }
 
 ?>

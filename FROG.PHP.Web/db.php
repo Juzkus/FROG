@@ -103,11 +103,11 @@ function db_invalidate_session_auth($authToken)
 # USER TABLE
 ######################################
 
-function db_get_user_by_username($userName)
+function db_get_user_by_field($fieldName, $fieldValue)
 {
 	$db = db_connect();
-	$stmt = $db->prepare("SELECT ID, USER_NAME, PASS_HASH, EMAIL, CREATED, IS_VALID FROM USERS WHERE USER_NAME = ?");
-	$stmt->bind_param("s", $userName);
+	$stmt = $db->prepare("SELECT ID, USER_NAME, PASS_HASH, EMAIL, CREATED, IS_VALID FROM USERS WHERE ? = ?");
+	$stmt->bind_param("ss", $fieldName, $fieldName);
 	$stmt->execute();
 	$result = $stmt->get_result();
 	

@@ -17,5 +17,5 @@ else
 <script>
 setTimeout(function(){
 	window.location.href = window.location.origin + '/demo';
-}, 1700);
+}, 800);
 </script>

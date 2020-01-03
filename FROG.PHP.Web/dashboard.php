@@ -7,6 +7,8 @@ if (!has_session())
 }
 
 $sessionId = get_session_id();
+$userName = get_session_user_name();
+
 ?>
 <script>
 function logout()
@@ -16,5 +18,6 @@ function logout()
 </script>
 
 <h3>Dashboard</h3>
-<p>Hello, <?php echo $sessionId; ?></p>
+<p>Hello, <?php echo $userName; ?></p>
+<p>SessionID: <?php echo $sessionId; ?></p>
 <button onclick="logout()">Logout</button>
