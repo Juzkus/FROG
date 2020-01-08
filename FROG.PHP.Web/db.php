@@ -119,6 +119,36 @@ function db_get_user_by_field($fieldName, $fieldValue)
 	return $user;
 }
 
+######################################
+# INVENTORY TABLE
+######################################
+
+function db_get_inventory()
+{
+	$db = $GLOBALS['db'];
+	$stmt = $db->prepare("SELECT ID, ITEM_NAME, ITEM_PRICE, ITEM_QUANTITY, IS_ACTIVE FROM INVENTORY WHERE IS_ACTIVE = 1");
+	$stmt->execute();
+	$result = $stmt->get_result();
+	
+	$inventory = [];
+	
+	if($result->num_rows > 0)
+	{
+		while ($row = $result->fetch_assoc())
+		{
+			$item = [];
+			$item['id'] 			= $row['ID'];
+			$item['itemName'] 		= $row['ITEM_NAME'];
+			$item['itemPrice'] 		= $row['ITEM_PRICE'];
+			$item['itemQuantity'] 	= $row['ITEM_QUANTITY'];
+			$item['isActive'] 		= $row['IS_ACTIVE'];
+			
+			array_push($inventory, $item);
+		}
+	}
+	
+	return $inventory;
+}
 
 ######################################
 # Connecting - most endpoints need DB.
