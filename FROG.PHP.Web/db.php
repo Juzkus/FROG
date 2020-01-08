@@ -14,7 +14,7 @@ function db_connect()
 
 function db_test()
 {
-	$db = db_connect();
+	$db = $GLOBALS['db'];
 	
 	if ($db->connect_error) {
 		die('Connect Error (' . $db->connect_errno . ') '
@@ -33,7 +33,7 @@ function db_create_session_auth($authToken, $userId)
 	# if (!($stmt = $mysqli->prepare("INSERT INTO SESSION_AUTH(ID, AUTH_TOKEN, USER_ID, IS_VALID) VALUES (?, ?, ?, ?)"))) {
 	# 	echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 	# }
-	$db = db_connect();
+	$db = $GLOBALS['db'];
 	$stmt = $db->prepare("INSERT INTO SESSION_AUTH(ID, AUTH_TOKEN, USER_ID, IS_VALID) VALUES (?, ?, ?, ?)");
 
 	/* Prepared statement, stage 2: bind and execute */
@@ -51,7 +51,7 @@ function db_create_session_auth($authToken, $userId)
 
 function db_get_user_id_for_session_auth_token($authToken)
 {
-	$db = db_connect();
+	$db = $GLOBALS['db'];
 	$stmt = $db->prepare("SELECT USER_ID FROM SESSION_AUTH WHERE AUTH_TOKEN = ?");
 	$stmt->bind_param("s", $authToken);
 	$stmt->execute();
@@ -71,7 +71,7 @@ function db_get_user_id_for_session_auth_token($authToken)
 
 function db_is_valid_auth($authToken)
 {
-	$db = db_connect();
+	$db = $GLOBALS['db'];
 	$stmt = $db->prepare("SELECT IS_VALID FROM SESSION_AUTH WHERE AUTH_TOKEN = ?");
 	$stmt->bind_param("s", $authToken);
 	$stmt->execute();
@@ -90,7 +90,7 @@ function db_is_valid_auth($authToken)
 
 function db_invalidate_session_auth($authToken)
 {
-	$db = db_connect();
+	$db = $GLOBALS['db'];
 	$isValid = 0;
 	
 	$stmt = $db->prepare("UPDATE SESSION_AUTH SET IS_VALID=? WHERE AUTH_TOKEN=?");
@@ -105,7 +105,7 @@ function db_invalidate_session_auth($authToken)
 
 function db_get_user_by_field($fieldName, $fieldValue)
 {
-	$db = db_connect();
+	$db = $GLOBALS['db'];
 	$stmt = $db->prepare("SELECT ID, USER_NAME, PASS_HASH, EMAIL, CREATED, IS_VALID FROM USERS WHERE ? = ?");
 	$stmt->bind_param("ss", $fieldName, $fieldName);
 	$stmt->execute();
@@ -132,5 +132,5 @@ function db_get_user_by_field($fieldName, $fieldValue)
 ######################################
 # Connecting - most endpoints need DB.
 ######################################
-# db_connect();
+$GLOBALS['db'] = db_connect();
 ?>
