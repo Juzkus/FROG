@@ -12,15 +12,15 @@ define('MOD_USER', 1);
 define('SIM_USER', 2);
 define('ADMIN_USER', 3);
 
+# USER Lookup Types
+define('USER_ID_LOOKUP', 0);
+define('USER_NAME_LOOKUP', 1);
+define('USER_EMAIL_LOOKUP', 2);
+
 # Database
 define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'FROG');
 define('DB_RW_USER', 'root');
 define('DB_RW_PASS', '');
-
-# USER Lookup Types
-define('USER_ID_LOOKUP', 0);
-define('USER_NAME_LOOKUP', 1);
-define('USER_EMAIL_LOOKUP', 2);
 
 ?>
