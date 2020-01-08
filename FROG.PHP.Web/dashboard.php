@@ -21,3 +21,4 @@ function logout()
 <p>Hello, <?php echo $userName; ?></p>
 <p>SessionID: <?php echo $sessionId; ?></p>
 <button onclick="logout()">Logout</button>
+<?php include "shells/inventory_feed.php"; ?>
