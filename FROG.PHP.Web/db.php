@@ -153,25 +153,43 @@ function db_get_inventory()
 ######################################
 # POSTS TABLES
 ######################################
-# ID	USER_ID	TITLE	CREATED	TYPE	IS_VALID
 function db_create_micro_post($post)
 {
 	$id = create_primary_guid();
 	
-	# TODO - this comes from session/header.
-	$userId = "";
+	$userId = $post['userId'];	
+	$postType = MICRO_POST;	
 	
-	$title = $post['title'];
-	$created = date(DateTime::ISO8601);
-	$postType = $post['type'];
+	# Micro posts don't have titles. They are like status updates.
+	$title = "";
+	$text = $post['text'];
+	
+	$created = date(DB_DATE_FMT);
+	$isValid = 1;
 	
 	$db = $GLOBALS['db'];
-	$stmt = $db->prepare("INSERT INTO POST_METADATA(ID, USER_ID, TITLE, CREATED, TYPE, IS_VALID) VALUES (?, ?, ?, ?)");
+	$stmt = $db->prepare("INSERT INTO POST_METADATA(ID, USER_ID, TITLE, CREATED, TYPE, IS_VALID) VALUES (?, ?, ?, ?, ?, ?)");
 
 	$isValid = 1;
-	$stmt->bind_param("ssssii", $id, $authToken, $userId, $isValid);
+	$stmt->bind_param("ssssii", $id, $userId, $title, $created, $postType, $isValid);
 
-	if (!$stmt->execute()) 
+	if ($stmt->execute()) 
+	{
+		$postDataId = create_primary_guid();
+		$postDataStatement = $db->prepare("INSERT INTO POST_DATA_MICRO(ID, META_ID, TEXT) VALUES (?, ?, ?)");
+		$postDataStatement->bind_param("sss", $postDataId, $id, $text);
+		
+		if ($postDataStatement->execute()) 
+		{
+			return $id;
+		}
+		else
+		{
+			# TODO
+			# Rollback Metadata insert.
+		}
+	}
+	else
 	{
 		# echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 	}

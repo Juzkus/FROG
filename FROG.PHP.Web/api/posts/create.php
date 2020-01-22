@@ -15,32 +15,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 	# Request Body
 	$json = get_request_json_object();
 	
+	$post = [];
+	$post["title"] = $json->title;
+	$post["userId"] = get_session_user_id();	
 	
-	$strPostType = $json->type;
-	$postType = 0;
-	
-	switch ($strPostType)
+	switch ($json->type)
 	{
 		case "blog":
-			$postType = BLOG_POST;
 			break;
 		case "macro":
-			$postType = MACRO_POST;
 			break;
 		case "micro":
 		default:
-			$postType = MICRO_POST;
+			$post['text'] = $json->text;
+			$post['id'] = db_create_micro_post($post);
 			break;
 	}	
 	
-	$userId = get_session_user_id();
-	
-	$response = [];
-	$response["id"] = create_primary_guid();
-	$response["title"] = $json->title;
-	$response["type"] = $postType;
-	$response["user"] = $userId;
-	write_json_response($response);
+	write_json_response($post);
 }
 
 ?>

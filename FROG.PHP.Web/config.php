@@ -27,5 +27,6 @@ define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'FROG');
 define('DB_RW_USER', 'root');
 define('DB_RW_PASS', '');
+define('DB_DATE_FMT', "Y-m-d H:i:s");
 
 ?>
