@@ -153,6 +153,76 @@ function db_get_inventory()
 ######################################
 # POSTS TABLES
 ######################################
+
+function db_get_post_by_id($id)
+{
+	$db = $GLOBALS['db'];
+	$stmt = $db->prepare("SELECT ID, USER_ID, TITLE, CREATED, TYPE FROM POST_METADATA WHERE ID = ? AND IS_VALID = 1");
+	
+	$stmt->bind_param("s", $id);
+	
+	$dbResult = [];
+	
+	if ($stmt->execute())
+	{
+		$result = $stmt->get_result();
+		$row = $result->fetch_assoc();
+		
+		$postId = $row['ID'];
+		$postType = $row['TYPE'];
+		
+		$dbResult['userId'] = $row['USER_ID'];
+		$dbResult['created'] = $row['CREATED'];
+		$dbResult['type'] = $postType;
+		
+		switch ($postType)
+		{
+			case MACRO_POST:
+				break;
+			case BLOG_POST:
+				$dbResult['title'] = $row['TITLE'];
+				break;
+			case MICRO_POST:
+			default:
+				$postData = db_get_micro_post_data($postId);
+				
+				if (isset($postData) && isset($postData['text']))
+				{
+					$dbResult['text'] = $postData['text'];
+				}
+				
+				break;
+		}
+	}
+	
+	return $dbResult;
+}
+
+function db_get_micro_post_data($postId)
+{
+	$db = $GLOBALS['db'];
+	$stmt = $db->prepare("SELECT ID, META_ID, TEXT FROM POST_DATA_MICRO WHERE META_ID = ?");
+	
+	$stmt->bind_param("s", $postId);
+
+	$dbResult = [];
+	
+	if ($stmt->execute())
+	{
+		$result = $stmt->get_result();
+		$row = $result->fetch_assoc();
+		
+		$postDataId = $row['ID'];
+		$postText = $row['TEXT'];
+		
+		
+		$dbResult['postDataId'] = $postDataId;
+		$dbResult['text'] = $postText;
+	}
+	
+	return $dbResult;
+}
+
 function db_create_micro_post($post)
 {
 	$id = create_primary_guid();

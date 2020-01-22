@@ -20,11 +20,20 @@ function get_recent_posts()
 
 function get_specific_post($postId)
 {
+	$result = db_get_post_by_id($postId);
 	
+	write_json_response($result);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') 
 {
-	get_recent_posts();
+	if (isset($_GET['id']))
+	{
+		get_specific_post($_GET['id']);
+	}
+	else
+	{
+		get_recent_posts();
+	}
 }
 ?>
