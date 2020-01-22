@@ -151,6 +151,33 @@ function db_get_inventory()
 }
 
 ######################################
+# POSTS TABLES
+######################################
+# ID	USER_ID	TITLE	CREATED	TYPE	IS_VALID
+function db_create_micro_post($post)
+{
+	$id = create_primary_guid();
+	
+	# TODO - this comes from session/header.
+	$userId = "";
+	
+	$title = $post['title'];
+	$created = date(DateTime::ISO8601);
+	$postType = $post['type'];
+	
+	$db = $GLOBALS['db'];
+	$stmt = $db->prepare("INSERT INTO POST_METADATA(ID, USER_ID, TITLE, CREATED, TYPE, IS_VALID) VALUES (?, ?, ?, ?)");
+
+	$isValid = 1;
+	$stmt->bind_param("ssssii", $id, $authToken, $userId, $isValid);
+
+	if (!$stmt->execute()) 
+	{
+		# echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+	}
+}
+
+######################################
 # Connecting - most endpoints need DB.
 ######################################
 $GLOBALS['db'] = db_connect();

@@ -1,5 +1,9 @@
 <?php
 
+# Library Code
+include_once "lib/parsedown/Parsedown.php";
+
+# Application Code
 include_once "config.php";
 include_once "crypto.php";
 include_once "db.php";

@@ -13,6 +13,11 @@ function get_session_id()
 	return $_SESSION['id'];
 }
 
+function get_session_user_id()
+{
+	return $_SESSION['user_id'];
+}
+
 function get_session_user_name()
 {
 	return $_SESSION['user_name'];

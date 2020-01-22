@@ -6,12 +6,15 @@ function authenticate_user($user, $pass)
 {
 	$response = [];
 	
+	# TODO - username/email
+	$user = get_user($user, USER_NAME_LOOKUP);
+		
 	if (user_password_matches($user, $pass))
 	{
 		$authToken = create_session_setup_guid();
-	
+		
 		# Persist auth token in DB.
-		db_create_session_auth($authToken, $user);
+		db_create_session_auth($authToken, $user['id']);
 		
 		$response['session_route'] = $authToken;
 	}

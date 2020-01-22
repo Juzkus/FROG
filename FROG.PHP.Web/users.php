@@ -1,10 +1,10 @@
 <?php
 include_once "include.php";
 
-function user_password_matches($userNameOrEmail, $pass)
+function user_password_matches($user, $pass)
 {
 	# TODO - check if input is email format.
-	$user = get_user($userNameOrEmail, USER_NAME_LOOKUP);	
+	# $user = get_user($userNameOrEmail, USER_NAME_LOOKUP);	
 	$dbHashedPass = $user['passHash'];
 	
 	return password_verify($pass, $dbHashedPass);

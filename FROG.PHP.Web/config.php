@@ -17,6 +17,11 @@ define('USER_ID_LOOKUP', 0);
 define('USER_NAME_LOOKUP', 1);
 define('USER_EMAIL_LOOKUP', 2);
 
+# POST Types
+define('MICRO_POST', 0);
+define('MACRO_POST', 1);
+define('BLOG_POST', 2);
+
 # Database
 define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'FROG');
