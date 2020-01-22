@@ -11,10 +11,10 @@ $userName = get_session_user_name();
 
 ?>
 <script>
-function logout()
-{
-	window.location.href = window.location.origin + '/api/logout';
-}
+<?php 
+$logoutJS = file_get_contents('js/logout.js');
+echo $logoutJS;
+?>
 </script>
 
 <h3>Dashboard</h3>
